@@ -1,0 +1,19 @@
+---
+stages:
+  - build
+
+build-image:
+  stage: build
+
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+
+  variables:
+    IMAGE: "${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_SLUG}"
+
+  script:
+    - /kaniko/executor
+      --cache=true --cache-ttl=720h --cache-copy-layers=true
+      --context "$CI_PROJECT_DIR"
+      --destination "${IMAGE/:main/:latest}"
