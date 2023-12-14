@@ -11,11 +11,7 @@ If you want to run the script itself directly (not as a container), you'll need 
 
 `python -m pip install -r requirements.txt`
 
-Then you can run the script with:
-
-`./trigger-pipeline.py`
-
-Just make sure to set the env vars (see below) before running.
+See below for how to run the script.
 
 
 ## Usage
@@ -27,6 +23,14 @@ Set the following environment variables:
 |`PIPELINE_URL`|The URL pointing to a project's pipeline to trigger|https://gitlab.example.org/api/v4/projects/102/trigger/pipeline|
 |`PIPELINE_TOKEN`|A GitLab pipeline trigger token ("glptt") that allows the pipeline to be triggered|`glptt-42df22923d789fa9f13fb00483d40b4ae0526959`|
 |`WATCH_DIR`|The directory to watch|`/tmp/triggerfiles`|
+
+Then run the script with:
+
+`./trigger-pipeline.py`
+
+### Via Docker
+
+This also comes packaged as a container. Watch this space for where to pull from.
 
 ## Caveats and warnings
 
