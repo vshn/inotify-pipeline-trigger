@@ -1,7 +1,11 @@
+#!/usr/bin/env python3
 import inotify.adapters
 import requests
 import os
 import datetime
+
+
+print("Starting up.")
 
 config = {
         "url": os.environ.get("PIPELINE_URL", "http://example.org"),
@@ -10,9 +14,10 @@ config = {
         }
 
 def _main():
+    validate_config(config)
     i = inotify.adapters.Inotify()
     i.add_watch(config["directory"])
-
+    print(f"Watching directory {config['directory']} and will trigger {config['url']} when new files arrive.")
 
     for event in i.event_gen(yield_nones=False):
         (_, type_names, path, filename) = event
@@ -21,7 +26,6 @@ def _main():
             trigger_pipeline(filename)
 
 def trigger_pipeline(filename = ''):
-    global config
     print(f"{datetime.datetime.now()} New file {filename} detected in inbox, triggering pipeline at {config['url']}")
     data = {
             "token": config["token"],
@@ -35,6 +39,12 @@ def trigger_pipeline(filename = ''):
         print(f"Exception is: {e}")
         print(f"Response code: {response.status_code}")
         print(f"Response: {response.content.decode()}")
+
+# Only validates the watch dir, but feel free to add more
+def validate_config(config):
+    directory = config["directory"]
+    if not (os.path.exists(directory) and os.path.isdir(directory)):
+        exit(f"{directory} does not exist or isn't a directory")
 
 if __name__ == '__main__':
     _main()
