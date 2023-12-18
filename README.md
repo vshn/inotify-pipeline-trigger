@@ -28,9 +28,13 @@ Then run the script with:
 
 `./trigger-pipeline.py`
 
-### Via Docker
+### Via container
 
-This also comes packaged as a container. Watch this space for where to pull from.
+This also comes packaged as a container available from `ghcr.io/vshn/inotify-pipeline-trigger`.
+
+See [the registry](https://github.com/vshn/inotify-pipeline-trigger/pkgs/container/inotify-pipeline-trigger) for more available versions.
+
+It should run on any OCI-compatible container runtime and doesn't need any special privileges beyond network access to wherever your GitLab lives, obviously.
 
 ## Caveats and warnings
 
